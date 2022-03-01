@@ -40,6 +40,18 @@ def OneReforward(X, R, S, y, ni, g, alpha):
         return 'drop block'
 
 
+# def backward(X, R, y, ni, g, beta=0.01):
+#     flag = 0
+#     while flag != 'stop':
+#         orig_trace = mult_trace(X[:, R], y, ni, g)
+#         compute_t = lambda i: mult_trace(X[:, np.delete(R, i)], y, ni, g)
+#         new_trace = np.array([compute_t(i) for i in np.arange(len(R))])
+#         if max(new_trace) / orig_trace > 1 - beta:
+#             R = np.setdiff1d(R, np.argmin(new_trace))
+#         else:
+#             flag = 'stop'
+#     return R
+
 def backward(X, R, y, ni, g, beta=0.01):
     flag = 0
     while flag != 'stop':
@@ -47,7 +59,10 @@ def backward(X, R, y, ni, g, beta=0.01):
         compute_t = lambda i: mult_trace(X[:, np.delete(R, i)], y, ni, g)
         new_trace = np.array([compute_t(i) for i in np.arange(len(R))])
         if max(new_trace) / orig_trace > 1 - beta:
-            R = np.setdiff1d(R, np.argmin(new_trace))
+            if len(R) == len(np.setdiff1d(R, np.argmin(new_trace))):
+                flag = 'stop'
+            else:
+                R = np.setdiff1d(R, np.argmin(new_trace))
         else:
             flag = 'stop'
     return R

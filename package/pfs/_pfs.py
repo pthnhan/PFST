@@ -41,4 +41,12 @@ def get_pfs(X, y, n_workers=5, alpha=0.05, beta=0.01, gamma=0.05):
     R_selected = backward(X, R, y, ni, C, beta)
     return R_selected
 
+if __name__ == '__main__':
+    import pandas as pd
+    from sklearn import datasets
+    from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
+    breastcc = datasets.load_breast_cancer()
+    X, y = breastcc.data, breastcc.target.ravel()
+    R = get_pfs(X, y, n_workers = 5, alpha = 0.05)
+    print(R)
