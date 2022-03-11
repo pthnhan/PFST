@@ -7,6 +7,7 @@ from pfs.parallel_forward_dropping import get_parallel_forward_dropping
 
 R_Reforward = []
 
+
 def get_reforward(X, block, R, S, y, ni, C, alpha = 0.05):
     result = 0
     while result != 'drop block':
@@ -16,8 +17,8 @@ def get_reforward(X, block, R, S, y, ni, C, alpha = 0.05):
             S = np.setdiff1d(S, result)
     return [block[i] for i in R]
 
-def get_parallel_reforward(X, y, n_workers, alpha=0.05, gamma=0.05):
-    R_forward_dropping = get_parallel_forward_dropping(X, y, n_workers, alpha)
+
+def get_parallel_reforward(X, y, n_workers, R_forward_dropping = None, alpha = 0.05, gamma = 0.05):
     A_minus_R = np.setdiff1d(np.arange(X.shape[1]), R_forward_dropping)
     ##########################
     p = multiprocessing.Pool(n_workers)
@@ -36,6 +37,7 @@ def get_parallel_reforward(X, y, n_workers, alpha=0.05, gamma=0.05):
     p.close()
     p.join()
     return R_Reforward
+
 
 def save_R_reforward(R):
     R_Reforward.extend(R)

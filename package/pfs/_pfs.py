@@ -9,15 +9,17 @@ import multiprocessing
 
 R_backward_argmax = []
 
+
 def get_R_backward_argmax(X, block, R, y, ni, C):
     compute_t = lambda i: mult_trace(X[:, np.delete(R, i)], y, ni, C)
     block_trace = np.array([compute_t(R.index(block[i])) for i in range(len(block))])
     return [block[np.argmax(block_trace)]]
 
+
 def get_parallel_backward_argmax(X, y, n_workers, alpha=0.05):
     R_argmax = get_parallel_get_argmax(X, y, n_workers)
     R_forward_dropping = get_parallel_forward_dropping(X, y, n_workers, alpha)
-    R_Reforward = get_parallel_reforward(X, y, n_workers, alpha)
+    R_Reforward = get_parallel_reforward(X, y, n_workers, R_forward_dropping, alpha)
     R = list(set(list(R_argmax) + list(R_forward_dropping) + list(R_Reforward)))
     blocks = divide_list(n_workers, R)
     p = multiprocessing.Pool(n_workers)
@@ -31,8 +33,10 @@ def get_parallel_backward_argmax(X, y, n_workers, alpha=0.05):
     p.join()
     return list(set(R_backward_argmax))
 
+
 def save_R_backward_argmax(R):
     R_backward_argmax.extend(R)
+
 
 def get_pfs(X, y, n_workers=5, alpha=0.05, beta=0.01, gamma=0.05):
     R = get_parallel_backward_argmax(X, y, n_workers, alpha)
@@ -40,6 +44,7 @@ def get_pfs(X, y, n_workers=5, alpha=0.05, beta=0.01, gamma=0.05):
     ni = np.array([np.sum(y == cl) for cl in np.arange(C)])
     R_selected = backward(X, R, y, ni, C, beta)
     return R_selected
+
 
 if __name__ == '__main__':
     import pandas as pd
