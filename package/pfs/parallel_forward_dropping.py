@@ -17,10 +17,12 @@ def get_one_forward_dropping(X, block, R, S, y, ni, C, alpha = 0.05):
 
             # form the result R.
             R = np.hstack((R, R_get))
+    print(f"{block} -> {[block[i] for i in R]}")
     return [block[i] for i in R]
 
 
-def get_parallel_forward_dropping(X, y, n_workers, alpha=0.05, gamma=0.05):
+def get_parallel_forward_dropping(X, y, n_workers, R_after_argmax, alpha=0.05, gamma=0.05):
+    print(f"Start getting parallel forward dropping with {n_workers} workers!")
     p = multiprocessing.Pool(n_workers)
     blocks = divide_list(n_workers, list(range(X.shape[1])))
     for block in blocks:
@@ -36,7 +38,8 @@ def get_parallel_forward_dropping(X, y, n_workers, alpha=0.05, gamma=0.05):
                       callback = save_R_forward_dropping)
     p.close()
     p.join()
-    return R_forward_dropping
+    print(f"After getting parallel forward with forward-dropping stage: R = {list(set(list(R_after_argmax) + list(R_forward_dropping)))}")
+    return list(set(list(R_after_argmax) + list(R_forward_dropping)))
 
 
 def save_R_forward_dropping(R):

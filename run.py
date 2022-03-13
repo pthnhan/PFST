@@ -29,7 +29,7 @@ if __name__ == '__main__':
     # df[df.columns] = df[df.columns].astype(float)
     # X, y = df[df.columns[:-1]].to_numpy(), df[df.columns[-1]].to_numpy()
     # print(X.shape, len(y))
-    R = get_pfs(X, y, n_workers = 6, alpha = 0.05, beta = 0.01)
+    R = get_pfs(X, y, n_workers = 9, alpha = 0.05, beta = 0.01)
     # from sklearn.preprocessing import LabelEncoder
     # df_X = pd.read_csv("D:\pthnhan\Downloads\data.csv")
     # X = df_X[df_X.columns[1:]].to_numpy()
@@ -43,5 +43,5 @@ if __name__ == '__main__':
     #     print(n_workers)
     #     R = get_pfs(X, y, n_workers = n_workers, alpha = 0.05, beta = 0.01)
     #     print(R)
-    #     res = [fold_k_err(X[:, R], y, k, LinearDiscriminantAnalysis()) for k in np.arange(5)]
-    #     print(np.mean(res))
+    res = [fold_k_err(X[:, R], y, k, LinearDiscriminantAnalysis()) for k in np.arange(5)]
+    print(np.mean(res))

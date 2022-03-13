@@ -15,12 +15,14 @@ def get_reforward(X, block, R, S, y, ni, C, alpha = 0.05):
         if result != 'drop block':
             R = np.hstack((R, result))
             S = np.setdiff1d(S, result)
+    print(f"{block} -> {[block[i] for i in R]}")
     return [block[i] for i in R]
 
 
-def get_parallel_reforward(X, y, n_workers, alpha = 0.05, gamma = 0.05):
-    R_forward_dropping = get_parallel_forward_dropping(X, y, n_workers, alpha)
-    A_minus_R = np.setdiff1d(np.arange(X.shape[1]), R_forward_dropping)
+def get_parallel_reforward(X, y, n_workers, R_after_forward_dropping, alpha = 0.05, gamma = 0.05):
+    print(f"Start getting parallel reforward with {n_workers} workers!")
+    A_minus_R = np.setdiff1d(np.arange(X.shape[1]), R_after_forward_dropping)
+    print(f"Reset the selection pool to A \ R = {A_minus_R}")
     ##########################
     p = multiprocessing.Pool(n_workers)
     blocks = divide_list(n_workers, A_minus_R)
@@ -37,7 +39,8 @@ def get_parallel_reforward(X, y, n_workers, alpha = 0.05, gamma = 0.05):
                       callback = save_R_reforward)
     p.close()
     p.join()
-    return R_Reforward
+    print(f"After getting parallel Re-forward stage: {list(set(list(R_after_forward_dropping) + list(R_Reforward)))}")
+    return list(set(list(R_after_forward_dropping) + list(R_Reforward)))
 
 
 def save_R_reforward(R):

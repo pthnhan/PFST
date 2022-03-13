@@ -9,10 +9,12 @@ R_argmax = []
 def get_argmax(X, block, y, ni, C):
     trace_univariate = np.array([univariate(X[:, i], y, ni, C) for i in np.arange(X.shape[1])])
     R = list(np.array([np.argmax(trace_univariate)]))
+    print(f"{block} -> {[block[i] for i in R]}")
     return [block[i] for i in R]
 
 
 def get_parallel_get_argmax(X, y, n_workers):
+    print(f"Start getting parallel argmax with {n_workers} workers!")
     p = multiprocessing.Pool(n_workers)
     blocks = divide_list(n_workers, list(range(X.shape[1])))
     C = len(np.unique(y))
@@ -24,6 +26,7 @@ def get_parallel_get_argmax(X, y, n_workers):
                       callback = save_R_argmax)
     p.close()
     p.join()
+    print(f"After getting parallel argmax: R = {R_argmax}")
     return R_argmax
 
 
