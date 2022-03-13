@@ -19,7 +19,7 @@ def get_R_backward_argmax(X, block, R, y, ni, C):
 def get_parallel_backward_argmax(X, y, n_workers, alpha=0.05):
     R_argmax = get_parallel_get_argmax(X, y, n_workers)
     R_forward_dropping = get_parallel_forward_dropping(X, y, n_workers, alpha)
-    R_Reforward = get_parallel_reforward(X, y, n_workers, R_forward_dropping, alpha)
+    R_Reforward = get_parallel_reforward(X, y, n_workers, alpha)
     R = list(set(list(R_argmax) + list(R_forward_dropping) + list(R_Reforward)))
     blocks = divide_list(n_workers, R)
     p = multiprocessing.Pool(n_workers)

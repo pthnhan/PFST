@@ -56,7 +56,10 @@ def backward(X, R, y, ni, g, beta=0.01):
     flag = 0
     while flag != 'stop':
         orig_trace = mult_trace(X[:, R], y, ni, g)
-        compute_t = lambda i: mult_trace(X[:, np.delete(R, i)], y, ni, g)
+        if len(R) == 2:
+            compute_t = lambda i: univariate(X[:, np.delete(R, i)], y, ni, g)
+        else:
+            compute_t = lambda i: mult_trace(X[:, np.delete(R, i)], y, ni, g)
         new_trace = np.array([compute_t(i) for i in np.arange(len(R))])
         if max(new_trace) / orig_trace > 1 - beta:
             if len(R) == len(np.setdiff1d(R, np.argmin(new_trace))):

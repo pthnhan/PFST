@@ -18,7 +18,8 @@ def get_reforward(X, block, R, S, y, ni, C, alpha = 0.05):
     return [block[i] for i in R]
 
 
-def get_parallel_reforward(X, y, n_workers, R_forward_dropping = None, alpha = 0.05, gamma = 0.05):
+def get_parallel_reforward(X, y, n_workers, alpha = 0.05, gamma = 0.05):
+    R_forward_dropping = get_parallel_forward_dropping(X, y, n_workers, alpha)
     A_minus_R = np.setdiff1d(np.arange(X.shape[1]), R_forward_dropping)
     ##########################
     p = multiprocessing.Pool(n_workers)
