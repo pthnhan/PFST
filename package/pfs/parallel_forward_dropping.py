@@ -23,7 +23,7 @@ def get_one_forward_dropping(X, block, R, S, y, ni, C, alpha = 0.05):
 
 def get_parallel_forward_dropping(X, y, n_workers, R_after_argmax, alpha=0.05, gamma=0.05):
     print(f"Start getting parallel forward dropping with {n_workers} workers!")
-    p = multiprocessing.Pool(n_workers)
+    p = multiprocessing.Pool(processes = n_workers)
     blocks = divide_list(n_workers, list(range(X.shape[1])))
     for block in blocks:
         X_block = X[:, block]

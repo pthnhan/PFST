@@ -20,16 +20,16 @@ if __name__ == '__main__':
     from sklearn import datasets
     from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
-    breastcc = datasets.load_breast_cancer()
-    X, y = breastcc.data, breastcc.target.ravel()
+    # breastcc = datasets.load_breast_cancer()
+    # X, y = breastcc.data, breastcc.target.ravel()
     # R = get_pfs(X, y, n_workers = 5, alpha = 0.05, beta = 0.01)
     # print(R)
-    # df = pd.read_csv("D:\pthnhan\Downloads\pd_speech_features.csv")
-    # df = df[1:]
-    # df[df.columns] = df[df.columns].astype(float)
-    # X, y = df[df.columns[:-1]].to_numpy(), df[df.columns[-1]].to_numpy()
-    # print(X.shape, len(y))
-    R = get_pfs(X, y, n_workers = 9, alpha = 0.05, beta = 0.01)
+    df = pd.read_csv("D:\pthnhan\Downloads\pd_speech_features.csv")
+    df = df[1:]
+    df[df.columns] = df[df.columns].astype(float)
+    X, y = df[df.columns[:-1]].to_numpy(), df[df.columns[-1]].to_numpy()
+    print(X.shape, len(y))
+    R = get_pfs(X, y, n_workers = 12, alpha = 0.05, beta = 0.01)
     # from sklearn.preprocessing import LabelEncoder
     # df_X = pd.read_csv("D:\pthnhan\Downloads\data.csv")
     # X = df_X[df_X.columns[1:]].to_numpy()

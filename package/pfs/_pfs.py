@@ -27,7 +27,7 @@ def get_parallel_backward_argmax(X, y, n_workers, alpha=0.05):
     print("Stage 3: Backward stage")
     print(f"Start getting parallel R backward argmax with {n_workers} workers!")
     blocks = divide_list(n_workers, R_after_Reforward)
-    p = multiprocessing.Pool(n_workers)
+    p = multiprocessing.Pool(processes = n_workers)
     C = len(np.unique(y))
     ni = np.array([np.sum(y == cl) for cl in np.arange(C)])
     for block in blocks:

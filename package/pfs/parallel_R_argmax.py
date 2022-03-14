@@ -15,7 +15,7 @@ def get_argmax(X, block, y, ni, C):
 
 def get_parallel_get_argmax(X, y, n_workers):
     print(f"Start getting parallel argmax with {n_workers} workers!")
-    p = multiprocessing.Pool(n_workers)
+    p = multiprocessing.Pool(processes = n_workers)
     blocks = divide_list(n_workers, list(range(X.shape[1])))
     C = len(np.unique(y))
     ni = np.array([np.sum(y == cl) for cl in np.arange(C)])

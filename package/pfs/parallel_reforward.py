@@ -24,7 +24,7 @@ def get_parallel_reforward(X, y, n_workers, R_after_forward_dropping, alpha = 0.
     A_minus_R = np.setdiff1d(np.arange(X.shape[1]), R_after_forward_dropping)
     print(f"Reset the selection pool to A \ R = {A_minus_R}")
     ##########################
-    p = multiprocessing.Pool(n_workers)
+    p = multiprocessing.Pool(processes = n_workers)
     blocks = divide_list(n_workers, A_minus_R)
     for block in blocks:
         X_block = X[:, block]
