@@ -22,6 +22,3 @@ def divide_list(n_proc, l):
         aux += 1
         aux = aux % n_proc
     return division
-
-if __name__ == '__main__':
-    print(divide_list(4, [1,2,3,4,5,6,7,8,9]))

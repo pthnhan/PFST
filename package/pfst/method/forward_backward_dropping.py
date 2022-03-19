@@ -1,8 +1,7 @@
 # One forward dropping iteration:
 # return: survived features, selected feature
 import numpy as np
-from pfs.trace_ratio import univariate, mult_trace
-from pfs.utils import divide_list
+from pfst.method.trace_ratio import univariate, mult_trace
 
 def OneForwardDropping(X, R, S, y, ni, g, alpha=0.05):
     if len(S) == 0:

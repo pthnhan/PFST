@@ -1,6 +1,6 @@
 import numpy as np
-from pfs.trace_ratio import univariate
-from pfs.forward_backward_dropping import OneForwardDropping, OneReforward, backward
+from pfst.method.trace_ratio import univariate
+from pfst.method.forward_backward_dropping import OneForwardDropping, OneReforward, backward
 
 
 def feature_selection(X, y, k, alpha, beta):
