@@ -1,5 +1,5 @@
 import numpy as np
-from pfst.run import get_pfst
+from pfst.run import run_pfst
 import pandas as pd
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
@@ -22,8 +22,6 @@ def fold_k_err(X, y, k, model):
 
 
 def log_results(f):
-    print("Log result!")
-
     def inner():
         res, runtime = f()
         data.append(res[0])
@@ -46,7 +44,7 @@ def timing(f):
 def run(f):
     def inner():
         X, y, data, n_workers = f()
-        R = get_pfst(X, y, n_workers = n_workers, alpha = 0.05, beta = 0.01)
+        R = run_pfst(X, y, n_workers = n_workers, alpha = 0.05, beta = 0.01)
         err = [fold_k_err(X[:, R], y, k, LinearDiscriminantAnalysis()) for k in np.arange(5)]
         return data, len(R), np.mean(err)
 
